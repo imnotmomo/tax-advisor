@@ -1,9 +1,19 @@
 import type { ReactNode } from "react";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { ApiHealthStatus } from "@/components/admin/api-health-status";
+import { SITE_ACCESS_COOKIE_NAME, hasValidSiteAccessCookie } from "@/lib/site-password";
 
 export const dynamic = "force-dynamic";
 
-export default function AdminLayout({ children }: { children: ReactNode }) {
+export default async function AdminLayout({ children }: { children: ReactNode }) {
+  const cookieStore = await cookies();
+  const accessCookie = cookieStore.get(SITE_ACCESS_COOKIE_NAME)?.value;
+
+  if (!hasValidSiteAccessCookie(accessCookie)) {
+    redirect("/");
+  }
+
   return (
     <div className="admin-shell">
       <header className="panel admin-hero">

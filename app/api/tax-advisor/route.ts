@@ -1,4 +1,6 @@
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+import { SITE_ACCESS_COOKIE_NAME, hasValidSiteAccessCookie } from "@/lib/site-password";
 
 const DEFAULT_TOP_K = 10;
 
@@ -86,7 +88,24 @@ function getUpstreamErrorMessage(
   );
 }
 
+async function getUnauthorizedResponse() {
+  const cookieStore = await cookies();
+  const accessCookie = cookieStore.get(SITE_ACCESS_COOKIE_NAME)?.value;
+
+  if (hasValidSiteAccessCookie(accessCookie)) {
+    return null;
+  }
+
+  return NextResponse.json({ error: "Password required." }, { status: 401 });
+}
+
 export async function GET() {
+  const unauthorizedResponse = await getUnauthorizedResponse();
+
+  if (unauthorizedResponse) {
+    return unauthorizedResponse;
+  }
+
   const upstreamUrl = getUpstreamHealthUrl();
 
   if (!upstreamUrl) {
@@ -163,6 +182,12 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+  const unauthorizedResponse = await getUnauthorizedResponse();
+
+  if (unauthorizedResponse) {
+    return unauthorizedResponse;
+  }
+
   const body = (await request.json().catch(() => null)) as RequestBody | null;
   const question = typeof body?.question === "string" ? body.question.trim() : "";
 

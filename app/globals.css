@@ -139,6 +139,23 @@ pre {
   margin-left: auto;
 }
 
+.gate-page {
+  min-height: 100vh;
+}
+
+.gate-layout {
+  align-items: stretch;
+}
+
+.gate-copy-block {
+  min-height: 0;
+}
+
+.gate-card {
+  justify-content: center;
+  min-height: 100%;
+}
+
 .entry-title {
   margin: 0;
   font-family: var(--font-thin);
