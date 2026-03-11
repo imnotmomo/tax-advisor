@@ -7,7 +7,7 @@ const DEFAULT_TOP_K = 10;
 type RequestBody = {
   question?: unknown;
   topK?: unknown;
-  allowScenarios?: unknown;
+  forceProceed?: unknown;
 };
 
 type UpstreamErrorBody = {
@@ -206,7 +206,7 @@ export async function POST(request: Request) {
 
   const topK =
     typeof body?.topK === "number" && Number.isFinite(body.topK) ? body.topK : DEFAULT_TOP_K;
-  const allowScenarios = body?.allowScenarios === true;
+  const forceProceed = body?.forceProceed === true;
 
   let upstreamResponse: Response;
 
@@ -218,7 +218,7 @@ export async function POST(request: Request) {
       body: JSON.stringify({
         question,
         top_k: topK,
-        allow_scenarios: allowScenarios,
+        force_proceed: forceProceed,
       }),
     });
   } catch {

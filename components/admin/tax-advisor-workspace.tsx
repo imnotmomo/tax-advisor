@@ -65,7 +65,7 @@ type AssistantThinkingMessage = {
   role: "assistant";
   status: "thinking";
   question: string;
-  allowScenarios: boolean;
+  forceProceed: boolean;
 };
 
 type AssistantReadyMessage = {
@@ -73,7 +73,7 @@ type AssistantReadyMessage = {
   role: "assistant";
   status: "ready";
   question: string;
-  allowScenarios: boolean;
+  forceProceed: boolean;
   raw: string;
   parsed: ParsedAdvisorAnswer;
 };
@@ -83,7 +83,7 @@ type AssistantErrorMessage = {
   role: "assistant";
   status: "error";
   question: string;
-  allowScenarios: boolean;
+  forceProceed: boolean;
   error: string;
 };
 
@@ -195,6 +195,7 @@ function parseAdvisorAnswer(raw: string): ParsedAdvisorAnswer {
     answerLines: answerLines.length > 0 ? answerLines : ["No answer returned."],
     sourceLines,
     requestsMoreInfo:
+      /\[MISSING_INFO\]/i.test(answerSection) ||
       /missing fields:/i.test(answerSection) ||
       /insufficient information to determine eligibility/i.test(answerSection),
   };
@@ -368,7 +369,7 @@ export function TaxAdvisorWorkspace() {
     sessionId: string,
     assistantMessageId: string,
     question: string,
-    allowScenarios: boolean
+    forceProceed: boolean
   ) {
     try {
       const response = await fetch("/api/tax-advisor", {
@@ -379,7 +380,7 @@ export function TaxAdvisorWorkspace() {
         body: JSON.stringify({
           question,
           topK: DEFAULT_TOP_K,
-          allowScenarios,
+          forceProceed,
         }),
       });
 
@@ -413,7 +414,7 @@ export function TaxAdvisorWorkspace() {
                     role: "assistant",
                     status: "ready",
                     question,
-                    allowScenarios,
+                    forceProceed,
                     raw: answer,
                     parsed: parseAdvisorAnswer(answer),
                   }
@@ -434,7 +435,7 @@ export function TaxAdvisorWorkspace() {
                     role: "assistant",
                     status: "error",
                     question,
-                    allowScenarios,
+                    forceProceed,
                     error: toErrorMessage(error),
                   }
                 : message
@@ -464,7 +465,7 @@ export function TaxAdvisorWorkspace() {
       role: "assistant",
       status: "thinking",
       question,
-      allowScenarios: false,
+      forceProceed: false,
     };
 
     setDraft("");
@@ -492,7 +493,7 @@ export function TaxAdvisorWorkspace() {
         message.role === "assistant" &&
         message.status === "ready" &&
         message.id === messageId &&
-        !message.allowScenarios
+        !message.forceProceed
     );
 
     if (!targetMessage) {
@@ -504,7 +505,7 @@ export function TaxAdvisorWorkspace() {
       role: "assistant",
       status: "thinking",
       question: targetMessage.question,
-      allowScenarios: true,
+      forceProceed: true,
     };
 
     setWorkspace((currentState) =>
@@ -645,7 +646,7 @@ export function TaxAdvisorWorkspace() {
               const showForceProceed =
                 message.status === "ready" &&
                 message.parsed.requestsMoreInfo &&
-                !message.allowScenarios &&
+                !message.forceProceed &&
                 latestMessageId === message.id;
 
               return (
