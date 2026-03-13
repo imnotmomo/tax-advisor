@@ -56,7 +56,7 @@ Colab-side environment requirements:
 - `CLOUDFLARE_TOKEN`
 
 > **Important:** The site password is documented in the project report file
-> linked above. This README will not reveal the password.
+> in canvas submission. This README will not reveal the password.
 
 ## Environment Variables
 
