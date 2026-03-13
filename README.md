@@ -5,6 +5,10 @@ password-protected Next.js application that provides a chat-style tax advisor
 UI with separate answer and source panels, a thinking state while the model is
 working, and chat history on the left side.
 
+Current implementation:
+
+- <https://tax-advisor-rho.vercel.app>
+
 ## What This Frontend Does
 
 - Provides the main user interface for the tax agent.
@@ -51,8 +55,8 @@ Colab-side environment requirements:
 - `HUGGINGFACEHUB_API_TOKEN`
 - `CLOUDFLARE_TOKEN`
 
-The site password is documented in the project report file linked above. This
-README will not reveal the password.
+> **Important:** The site password is documented in the project report file
+> linked above. This README will not reveal the password.
 
 ## Environment Variables
 
