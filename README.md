@@ -60,7 +60,8 @@ Colab-side environment requirements:
 
 Backend structure in the notebook:
 
-- Loads the tax document corpus and source metadata from the project data repo.
+- Loads the tax document corpus and source metadata from the project data repo:
+  <https://github.com/imnotmomo/6895mid>
 - Chunks source text into retrieval-sized passages.
 - Builds embeddings with `BAAI/bge-base-en-v1.5`.
 - Stores vectors in Milvus Lite for local vector search inside Colab.
@@ -79,6 +80,24 @@ Backend structure in the notebook:
   - `POST /chat`
 - Exposes the FastAPI server to the deployed frontend through Cloudflare
   Tunnel.
+
+## Evaluation
+
+The notebook also includes evaluation work for both retrieval quality and final
+answer quality.
+
+- Retrieval evaluation is run on a 28-query eval set using metrics such as
+  Hit@k and MRR.
+- Answer evaluation uses 28 real 2025 CPA Tax Compliance and Planning practice
+  exam MCQs.
+- The MCQ benchmark is split across 4 categories with 7 questions each:
+  - `gift_estate_and_charitable`
+  - `passive_activity_and_at_risk`
+  - `property_transactions`
+  - `retirement_and_financial_planning`
+- The notebook compares RAG-augmented answering against the raw base model.
+  In the recorded notebook run, RAG reached `20/28` correct (`71.4%`) versus
+  `13/28` (`46.4%`) for the raw model.
 
 
 ## Environment Variables
