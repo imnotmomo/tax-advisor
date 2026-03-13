@@ -9,6 +9,9 @@ Current implementation:
 
 - <https://tax-advisor-rho.vercel.app>
 
+> **Important:** The site password is documented in the project report file
+> in canvas submission. This README will not reveal the password.
+
 ## What This Frontend Does
 
 - Provides the main user interface for the tax agent.
@@ -55,8 +58,6 @@ Colab-side environment requirements:
 - `HUGGINGFACEHUB_API_TOKEN`
 - `CLOUDFLARE_TOKEN`
 
-> **Important:** The site password is documented in the project report file
-> in canvas submission. This README will not reveal the password.
 
 ## Environment Variables
 
