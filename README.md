@@ -63,11 +63,13 @@ Backend structure in the notebook:
 - Loads the tax document corpus and source metadata from the project data repo:
   <https://github.com/imnotmomo/6895mid>
 - Chunks source text into retrieval-sized passages.
-- Builds embeddings with `BAAI/bge-base-en-v1.5`.
+- Builds embeddings with [`BAAI/bge-base-en-v1.5`](https://huggingface.co/BAAI/bge-base-en-v1.5).
 - Stores vectors in Milvus Lite for local vector search inside Colab.
-- Uses a cross-encoder reranker, `cross-encoder/ms-marco-MiniLM-L-6-v2`, to
-  improve retrieval quality after the first search pass.
-- Uses `openai/gpt-oss-20b` as the generation model for the final tax answer.
+- Uses a cross-encoder reranker,
+  [`cross-encoder/ms-marco-MiniLM-L6-v2`](https://huggingface.co/cross-encoder/ms-marco-MiniLM-L6-v2),
+  to improve retrieval quality after the first search pass.
+- Uses [`openai/gpt-oss-20b`](https://huggingface.co/openai/gpt-oss-20b) as the
+  generation model for the final tax answer.
 - Produces structured backend outputs in three modes:
   - `final` for a direct answer
   - `missing` when required taxpayer facts are missing
