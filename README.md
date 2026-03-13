@@ -46,6 +46,11 @@ Colab project link:
 - Notebook in this repo: [tax-advisor-notebook.ipynb](./tax-advisor-notebook.ipynb)
 - PDF report in this repo: [tax-advisor-notebook.pdf](./tax-advisor-notebook.pdf)
 
+Colab-side environment requirements:
+
+- `HUGGINGFACEHUB_API_TOKEN`
+- `CLOUDFLARE_TOKEN`
+
 The site password is documented in the project report file linked above. This
 README will not reveal the password.
 
