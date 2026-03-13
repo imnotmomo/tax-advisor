@@ -43,6 +43,8 @@ Request flow:
 Colab project link:
 
 - <https://drive.google.com/file/d/1Lhzhj1iuIMdrthfF8re3-hzx_I8GUSnu/view?usp=sharing>
+- Notebook in this repo: [tax-advisor-notebook.ipynb](./tax-advisor-notebook.ipynb)
+- PDF report in this repo: [tax-advisor-notebook.pdf](./tax-advisor-notebook.pdf)
 
 The site password is documented in the project report file linked above. This
 README will not reveal the password.
