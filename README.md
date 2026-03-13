@@ -58,6 +58,28 @@ Colab-side environment requirements:
 - `HUGGINGFACEHUB_API_TOKEN`
 - `CLOUDFLARE_TOKEN`
 
+Backend structure in the notebook:
+
+- Loads the tax document corpus and source metadata from the project data repo.
+- Chunks source text into retrieval-sized passages.
+- Builds embeddings with `BAAI/bge-base-en-v1.5`.
+- Stores vectors in Milvus Lite for local vector search inside Colab.
+- Uses a cross-encoder reranker, `cross-encoder/ms-marco-MiniLM-L-6-v2`, to
+  improve retrieval quality after the first search pass.
+- Uses `openai/gpt-oss-20b` as the generation model for the final tax answer.
+- Produces structured backend outputs in three modes:
+  - `final` for a direct answer
+  - `missing` when required taxpayer facts are missing
+  - `scenario` when `force_proceed` is enabled and the system should return
+    assumption-based outcomes
+- Renders the result into one answer string with an `Answer` section and a
+  `Sources` section, which the frontend then splits into separate UI boxes.
+- Serves the Colab backend with FastAPI using:
+  - `GET /health`
+  - `POST /chat`
+- Exposes the FastAPI server to the deployed frontend through Cloudflare
+  Tunnel.
+
 
 ## Environment Variables
 
